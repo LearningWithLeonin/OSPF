@@ -1,0 +1,33 @@
+conf t
+hostname B
+enable secret pass
+line console 0
+password pass
+login
+exec-timeout 0 0
+end
+conf t
+line vty 0 14
+password pass
+login
+exec-timeout 0 0
+end
+conf t
+int gigabitEther 0/0
+ip address 192.168.20.1 255.255.255.0
+ip dhcp excluded-address 192.168.20.1 192.168.20.50
+ip dhcp pool pool
+network 192.168.20.0 255.255.255.0
+default-router 192.168.20.1
+domain-name B.com
+dns-server 8.8.8.8 4.2.2.2
+end
+conf t
+int gigabitEthernet 1/0
+ip address 10.1.1.2
+end
+conf t
+router ospf 1
+network 192.168.20.0 0.0.0.255 area 0
+network 10.0.0.0 0.255.255.255 area 0
+end
